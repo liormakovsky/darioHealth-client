@@ -21,7 +21,7 @@ const Header = () => {
           <Nav className="me-auto navbar_wrapper">
             {user ? (
               <>
-                <Link to="/total-messages">Total messages report</Link>
+                <Link to="/total-messages">Messages Report</Link>
               </>
             ) : (
               <>

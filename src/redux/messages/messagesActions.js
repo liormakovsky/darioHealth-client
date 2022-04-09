@@ -16,13 +16,14 @@ export const messagesInitialState = {
   inputs: [],
 };
 
-export const getTotalMessages = () => {
+export const getTotalMessages = (filters) => {
   return async (dispatch) => {
     dispatch({ type: GET_MESSAGES_BEGIN });
     try {
       const { data } = await axios({
         method: "post",
         url: "http://localhost:8000/api/v1/getTotalMessages",
+        data: filters,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",

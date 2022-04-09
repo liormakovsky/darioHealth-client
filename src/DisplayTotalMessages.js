@@ -13,16 +13,23 @@ const DisplayTotalMessages = () => {
 
   const [startDate, setStartDate] = useState(new Date("2022/04/01"));
   const [endDate, setEndDate] = useState(new Date());
+  const [selectedOptions, setSelectedOptions] = useState({});
 
   useEffect(() => {
-    getTotals();
+    if (Object.keys(selectedOptions).length > 0) {
+      getTotals();
+    }
     getInputValues();
-  }, [inputs, totals]);
+    setSelectedOptions({
+      startDate: startDate.toLocaleDateString(),
+      endDate: endDate.toLocaleDateString(),
+    });
+  }, [inputs]);
 
   //fetch the totals for the table
   const getTotals = () => {
     if (Object.keys(totals).length === 0) {
-      dispatch(getTotalMessages());
+      dispatch(getTotalMessages(selectedOptions));
     }
   };
 
@@ -51,9 +58,44 @@ const DisplayTotalMessages = () => {
     }),
   };
 
+  const handleCountry = (option) => {
+    setSelectedOptions((selectedOptions) => ({
+      ...selectedOptions,
+      countryId: option.cnt_id,
+    }));
+  };
+
+  const handleUser = (option) => {
+    setSelectedOptions((selectedOptions) => ({
+      ...selectedOptions,
+      userId: option.id,
+    }));
+  };
+
+  const handleStartDate = (date) => {
+    setStartDate(date);
+    setSelectedOptions((selectedOptions) => ({
+      ...selectedOptions,
+      startDate: date.toLocaleDateString(),
+    }));
+  };
+
+  const handleEndDate = (date) => {
+    setEndDate(date);
+    setSelectedOptions((selectedOptions) => ({
+      ...selectedOptions,
+      endDate: date.toLocaleDateString(),
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(getTotalMessages(selectedOptions));
+  };
+
   return (
     <>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Row>
           <Col lg={1}></Col>
           <Col lg={10} className="d-flex align-items-center">
@@ -61,7 +103,7 @@ const DisplayTotalMessages = () => {
               <Form.Label>From</Form.Label>
               <DatePicker
                 selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                onChange={(date) => handleStartDate(date)}
               />
             </Form.Group>
 
@@ -69,7 +111,7 @@ const DisplayTotalMessages = () => {
               <Form.Label>To</Form.Label>
               <DatePicker
                 selected={endDate}
-                onChange={(date) => setEndDate(date)}
+                onChange={(date) => handleEndDate(date)}
               />
             </Form.Group>
 
@@ -85,6 +127,7 @@ const DisplayTotalMessages = () => {
                     getOptionValue={(e) => e.cnt_id}
                     loadOptions={(e) => getCountriesForSelect(e)}
                     placeholder={"Select Country"}
+                    onChange={handleCountry}
                   />
                 </>
               ) : (
@@ -106,6 +149,7 @@ const DisplayTotalMessages = () => {
                     getOptionValue={(e) => e.id}
                     loadOptions={(e) => getUsersForSelect(e)}
                     placeholder={"Select User"}
+                    onChange={handleUser}
                   />
                 </>
               ) : (
@@ -155,7 +199,7 @@ const DisplayTotalMessages = () => {
                 <>
                   <tr className="text-center">
                     <td></td>
-                    <td>Please wait...</td>
+                    <td>No Data To Display</td>
                     <td></td>
                   </tr>
                 </>
