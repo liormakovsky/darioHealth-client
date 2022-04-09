@@ -45,7 +45,7 @@ const Login = () => {
           dispatch(loginUser(values));
         }}
       >
-        {({ dirty, errors }) => (
+        {() => (
           <Form className="col-4 offset-4">
             <h1>Login</h1>
             <div className="form-group mt-2">

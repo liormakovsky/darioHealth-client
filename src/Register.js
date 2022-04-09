@@ -28,7 +28,7 @@ const Register = () => {
     );
   }
 
-  const initialValues = { name: "", email: "", password: "" };
+  const initialValues = { usr_name: "", email: "", password: "" };
   const validationSchema = yup.object().shape({
     usr_name: yup
       .string()

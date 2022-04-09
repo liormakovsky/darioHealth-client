@@ -9,7 +9,9 @@ import Select from "react-select";
 
 const DisplayTotalMessages = () => {
   const dispatch = useDispatch();
-  const { totals, inputs } = useSelector((state) => state.messagesReducer);
+  const { totals, inputs, isLoading } = useSelector(
+    (state) => state.messagesReducer
+  );
 
   const [startDate, setStartDate] = useState(new Date("2022/04/01"));
   const [endDate, setEndDate] = useState(new Date());
@@ -58,6 +60,7 @@ const DisplayTotalMessages = () => {
     }),
   };
 
+  //add selected country to selectedOption obj
   const handleCountry = (option) => {
     setSelectedOptions((selectedOptions) => ({
       ...selectedOptions,
@@ -65,6 +68,7 @@ const DisplayTotalMessages = () => {
     }));
   };
 
+  //add selected user to selectedOption obj
   const handleUser = (option) => {
     setSelectedOptions((selectedOptions) => ({
       ...selectedOptions,
@@ -72,6 +76,7 @@ const DisplayTotalMessages = () => {
     }));
   };
 
+  //add selected start date to selectedOption obj
   const handleStartDate = (date) => {
     setStartDate(date);
     setSelectedOptions((selectedOptions) => ({
@@ -80,6 +85,7 @@ const DisplayTotalMessages = () => {
     }));
   };
 
+  //add selected end date to selectedOption obj
   const handleEndDate = (date) => {
     setEndDate(date);
     setSelectedOptions((selectedOptions) => ({
@@ -163,8 +169,9 @@ const DisplayTotalMessages = () => {
               variant="outline-primary"
               className="mt-2 ms-5"
               type="submit"
+              disabled={isLoading}
             >
-              Submit
+              Search
             </Button>
           </Col>
           <Col lg={1}></Col>
@@ -194,6 +201,14 @@ const DisplayTotalMessages = () => {
                       </tr>
                     );
                   })}
+                </>
+              ) : isLoading ? (
+                <>
+                  <tr className="text-center">
+                    <td></td>
+                    <td>Please wait...</td>
+                    <td></td>
+                  </tr>
                 </>
               ) : (
                 <>
