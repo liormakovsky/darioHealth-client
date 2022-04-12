@@ -18,19 +18,21 @@ const DisplayTotalMessages = () => {
   const [selectedOptions, setSelectedOptions] = useState({});
 
   useEffect(() => {
-    if (Object.keys(selectedOptions).length > 0) {
-      getTotals();
-    }
+    getTotals();
     getInputValues();
-    setSelectedOptions({
-      startDate: startDate.toLocaleDateString(),
-      endDate: endDate.toLocaleDateString(),
-    });
   }, [inputs]);
 
   //fetch the totals for the table
   const getTotals = () => {
-    if (Object.keys(totals).length === 0) {
+    setSelectedOptions({
+      startDate: startDate.toLocaleDateString(),
+      endDate: endDate.toLocaleDateString(),
+    });
+    if (
+      Object.keys(totals).length === 0 &&
+      Object.keys(selectedOptions).length > 0
+    ) {
+      //dates also sent to server
       dispatch(getTotalMessages(selectedOptions));
     }
   };
