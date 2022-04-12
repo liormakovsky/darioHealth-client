@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTotalMessages, getInputsValues } from "./redux";
 import { Table, Row, Col, Form, Button } from "react-bootstrap";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import AsyncSelect from "react-select/async";
 import Select from "react-select";
+import DatePickerComp from "./components/DatePickerComp.js";
+import TableRow from "./components/TableRow.js";
 
 const DisplayTotalMessages = () => {
   const dispatch = useDispatch();
@@ -22,16 +22,17 @@ const DisplayTotalMessages = () => {
     getInputValues();
   }, [inputs]);
 
+  const inputsLength = Object.keys(inputs).length;
+  const totalsLength = Object.keys(totals).length;
+  const selectsLength = Object.keys(selectedOptions).length;
+
   //fetch the totals for the table
   const getTotals = () => {
     setSelectedOptions({
       startDate: startDate.toLocaleDateString(),
       endDate: endDate.toLocaleDateString(),
     });
-    if (
-      Object.keys(totals).length === 0 &&
-      Object.keys(selectedOptions).length > 0
-    ) {
+    if (totalsLength === 0 && selectsLength > 0) {
       //dates also sent to server
       dispatch(getTotalMessages(selectedOptions));
     }
@@ -107,25 +108,19 @@ const DisplayTotalMessages = () => {
         <Row>
           <Col lg={1}></Col>
           <Col lg={10} className="d-flex align-items-center">
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>From</Form.Label>
-              <DatePicker
-                selected={startDate}
-                onChange={(date) => handleStartDate(date)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>To</Form.Label>
-              <DatePicker
-                selected={endDate}
-                onChange={(date) => handleEndDate(date)}
-              />
-            </Form.Group>
-
+            <DatePickerComp
+              label="From"
+              selected={startDate}
+              handleStartDate={handleStartDate}
+            />
+            <DatePickerComp
+              label="To"
+              selected={endDate}
+              handleStartDate={handleEndDate}
+            />
             <Form.Group className="mb-3 ms-3" style={{ width: "200px" }}>
               <Form.Label>Country</Form.Label>
-              {Object.keys(inputs).length > 0 ? (
+              {inputsLength > 0 ? (
                 <>
                   <AsyncSelect
                     styles={style}
@@ -144,10 +139,9 @@ const DisplayTotalMessages = () => {
                 </>
               )}
             </Form.Group>
-
             <Form.Group className="mb-3 ms-4" style={{ width: "200px" }}>
               <Form.Label>User</Form.Label>
-              {Object.keys(inputs).length > 0 ? (
+              {inputsLength > 0 ? (
                 <>
                   <AsyncSelect
                     styles={style}
@@ -166,7 +160,6 @@ const DisplayTotalMessages = () => {
                 </>
               )}
             </Form.Group>
-
             <Button
               variant="outline-primary"
               className="mt-2 ms-5"
@@ -195,31 +188,13 @@ const DisplayTotalMessages = () => {
               {totals.length ? (
                 <>
                   {totals.map((total) => {
-                    return (
-                      <tr className="text-center" key={total.date}>
-                        <td>{total.date}</td>
-                        <td>{total.total_success}</td>
-                        <td>{total.total_failed}</td>
-                      </tr>
-                    );
+                    return <TableRow {...total} key={total.date} />;
                   })}
                 </>
               ) : isLoading ? (
-                <>
-                  <tr className="text-center">
-                    <td></td>
-                    <td>Please wait...</td>
-                    <td></td>
-                  </tr>
-                </>
+                <TableRow placeHolder="Please Wait..." />
               ) : (
-                <>
-                  <tr className="text-center">
-                    <td></td>
-                    <td>No Data To Display</td>
-                    <td></td>
-                  </tr>
-                </>
+                <TableRow placeHolder="No Data To Display" />
               )}
             </tbody>
           </Table>
