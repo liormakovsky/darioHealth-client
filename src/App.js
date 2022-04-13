@@ -2,12 +2,8 @@ import "./App.css";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Login";
-import Register from "./Register";
-import DisplayTotalMessages from "./DisplayTotalMessages";
-import Profile from "./Profile";
-import Protected from "./Protected";
-import Header from "./Header";
+import { Header, Protected } from "./components";
+import { Login, Register, DisplayTotalMessages, Profile } from "./pages";
 
 function App() {
   return (

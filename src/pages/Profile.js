@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import _ from "lodash";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "./redux";
+import { updateUser } from "../redux";
 import { FaSpinner } from "react-icons/fa";
 
 const Profile = () => {

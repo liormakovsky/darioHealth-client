@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTotalMessages, getInputsValues } from "./redux";
+import { getTotalMessages, getInputsValues } from "../redux";
 import { Table, Row, Col, Form, Button } from "react-bootstrap";
 import Select from "react-select";
-import DatePickerComp from "./components/DatePickerComp.js";
-import TableRow from "./components/TableRow.js";
-import SelectComp from "./components/SelectComp.js";
+import { DatePickerComp, TableRow, SelectComp } from "../components";
 
 const DisplayTotalMessages = () => {
   const dispatch = useDispatch();
