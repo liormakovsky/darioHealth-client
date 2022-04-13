@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTotalMessages, getInputsValues } from "./redux";
 import { Table, Row, Col, Form, Button } from "react-bootstrap";
-import AsyncSelect from "react-select/async";
 import Select from "react-select";
 import DatePickerComp from "./components/DatePickerComp.js";
 import TableRow from "./components/TableRow.js";
