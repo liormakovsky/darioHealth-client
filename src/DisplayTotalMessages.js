@@ -15,35 +15,17 @@ const DisplayTotalMessages = () => {
 
   const [startDate, setStartDate] = useState(new Date("2022/04/01"));
   const [endDate, setEndDate] = useState(new Date());
-  const [selectedOptions, setSelectedOptions] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState({
+    startDate: startDate.toLocaleDateString(),
+    endDate: endDate.toLocaleDateString(),
+  });
 
   useEffect(() => {
-    getTotals();
-    getInputValues();
-  }, [inputs]);
+    dispatch(getTotalMessages(selectedOptions));
+    dispatch(getInputsValues());
+  }, []);
 
   const inputsLength = Object.keys(inputs).length;
-  const totalsLength = Object.keys(totals).length;
-  const selectsLength = Object.keys(selectedOptions).length;
-
-  //fetch the totals for the table
-  const getTotals = () => {
-    setSelectedOptions({
-      startDate: startDate.toLocaleDateString(),
-      endDate: endDate.toLocaleDateString(),
-    });
-    if (totalsLength === 0 && selectsLength > 0) {
-      //dates also sent to server
-      dispatch(getTotalMessages(selectedOptions));
-    }
-  };
-
-  //fetch the countries and the users data for the select inputs
-  const getInputValues = () => {
-    if (Object.keys(inputs).length === 0) {
-      dispatch(getInputsValues());
-    }
-  };
 
   //return countries data for the select input
   const getCountriesForSelect = async () => {
