@@ -6,6 +6,7 @@ import AsyncSelect from "react-select/async";
 import Select from "react-select";
 import DatePickerComp from "./components/DatePickerComp.js";
 import TableRow from "./components/TableRow.js";
+import SelectComp from "./components/SelectComp.js";
 
 const DisplayTotalMessages = () => {
   const dispatch = useDispatch();
@@ -79,6 +80,22 @@ const DisplayTotalMessages = () => {
     }));
   };
 
+  const handleCountryTitle = (e) => {
+    return e.cnt_title;
+  };
+
+  const handleCountryValue = (e) => {
+    return e.cnt_id;
+  };
+
+  const handleUserTitle = (e) => {
+    return e.usr_name;
+  };
+
+  const handleUserValue = (e) => {
+    return e.id;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(getTotalMessages(selectedOptions));
@@ -103,18 +120,14 @@ const DisplayTotalMessages = () => {
             <Form.Group className="mb-3 ms-3" style={{ width: "200px" }}>
               <Form.Label>Country</Form.Label>
               {inputsLength > 0 ? (
-                <>
-                  <AsyncSelect
-                    styles={style}
-                    cacheOptions
-                    defaultOptions
-                    getOptionLabel={(e) => e.cnt_title}
-                    getOptionValue={(e) => e.cnt_id}
-                    loadOptions={(e) => getCountriesForSelect(e)}
-                    placeholder={"Select Country"}
-                    onChange={handleCountry}
-                  />
-                </>
+                <SelectComp
+                  style={style}
+                  title={handleCountryTitle}
+                  value={handleCountryValue}
+                  load={getCountriesForSelect}
+                  placeHolder="Select Country"
+                  change={handleCountry}
+                />
               ) : (
                 <>
                   <Select styles={style} placeholder={"Please wait.."} />
@@ -124,18 +137,14 @@ const DisplayTotalMessages = () => {
             <Form.Group className="mb-3 ms-4" style={{ width: "200px" }}>
               <Form.Label>User</Form.Label>
               {inputsLength > 0 ? (
-                <>
-                  <AsyncSelect
-                    styles={style}
-                    cacheOptions
-                    defaultOptions
-                    getOptionLabel={(e) => e.usr_name}
-                    getOptionValue={(e) => e.id}
-                    loadOptions={(e) => getUsersForSelect(e)}
-                    placeholder={"Select User"}
-                    onChange={handleUser}
-                  />
-                </>
+                <SelectComp
+                  style={style}
+                  title={handleUserTitle}
+                  value={handleUserValue}
+                  load={getUsersForSelect}
+                  placeHolder="Select User"
+                  change={handleUser}
+                />
               ) : (
                 <>
                   <Select styles={style} placeholder={"Please wait.."} />
